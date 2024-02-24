@@ -17,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.accept.ContentNegotiationStrategy;
+import org.springframework.web.accept.HeaderContentNegotiationStrategy;
 
 
 @OpenAPIDefinition(info=@Info(title="Dental Soft - API v1")) //Swagger title
@@ -66,6 +68,11 @@ public class WebSecurityConfig {
                                 .requestMatchers(AUTH_WHITELIST).permitAll()
                                 .anyRequest().authenticated()
                 );
+
+
+        // Add content negotiation strategy
+        http.setSharedObject(ContentNegotiationStrategy.class,
+                new HeaderContentNegotiationStrategy());
 
         http.authenticationProvider(authenticationProvider());
 
